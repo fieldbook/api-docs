@@ -64,13 +64,15 @@ Record objects
 
 * The keys of the object are based on the field names. (Again, don't name two fields the same thing, or there will be conflicts!)
 
+* Each record also has an `id` key with a short integer ID. This can be used to retrieve the record. (Again, don't name a field “ID”, or the actual ID will be shadowed.)
+
 * The values are JSON values you would expect: strings, numbers, etc.
 
 * All numeric types are numbers. A currency value like $7 is read from the API as just 7. A percent value like 30% is read as 0.3.
 
 * Dates are strings in the form YYYY-MM-DD; a day-of-year is in the form MM-DD.
 
-* Linked cells are arrays of objects with id and name. Other fields of the linked record are not populated right now.
+* Linked cells are arrays of objects with the short ID and name of the record. Other fields of the linked record are not populated right now.
 
 * Again, formula values are not included right now.
 
