@@ -1,2 +1,7 @@
-# api-docs
-Documentation for Fieldbook's API (beta).
+Fieldbook API docs (BETA)
+=========================
+
+Fieldbook's API is in closed beta.
+
+* [Quick start](quick-start.md)
+* [Reference](reference.md)
