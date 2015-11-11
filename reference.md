@@ -11,9 +11,7 @@ If you just want to dive in and get started, see the [quick start guide](quick-s
 Version
 -------
 
-Officially, this is v1 of the API. (In spirit, it's more like v0.1.)
-
-This API will evolve, but it won't have breaking changes. Any breaking changes will introduce a new version (v2).
+The version number in the URL is `v1`, but in semver terms consider this v0.1. We expect the API to evolve rapidly.
 
 Limitations
 -----------
