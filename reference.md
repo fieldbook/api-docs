@@ -84,6 +84,9 @@ This version of the API is read-only, so there are really only two calls:
 * `GET https://api.fieldbook.com/v1/:book_id/:sheet_name` retrieves a list of all records in the sheet.
 * `GET https://api.fieldbook.com/v1/:book_id/:sheet_name/:record_id` retrieves a single record.
 
+Note that sheet names are lowercase only and spaces need to be replaced with underscores `_`, so if you have a sheet named `My Sheet` the list of records would be available at `GET https://api.fieldbook.com/v1/:book_id/my_sheet`
+
+
 Future work
 -----------
 
