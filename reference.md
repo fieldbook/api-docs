@@ -46,11 +46,21 @@ Endpoints
 
 * Each book has a base URL displayed in the API management panel, like `https://api.fieldbook.com/v1/5643be3316c813030039032e`.
 
-* Each sheet has an URL based on its name, like `https://api.fieldbook.com/v1/5643be3316c813030039032e/people`. (Again, don't name two sheets the same thing, or there will be conflicts!)
+* Each sheet has an URL based on its title, like `https://api.fieldbook.com/v1/5643be3316c813030039032e/people`. (See below for how sheet titles are converted into slugs for these URLs. Again, don't name two sheets the same thing, or there will be conflicts!)
 
-* Each record has an URL based on its sheet name and its short numeric ID, like `https://api.fieldbook.com/v1/5643be3316c813030039032e/people/3`.
+* Each record has an URL based on its sheet title and its short numeric ID, like `https://api.fieldbook.com/v1/5643be3316c813030039032e/people/3`.
 
 * You can optionally append `.json` to any URL.
+
+Sheet titles & field names
+--------------------------
+
+Sheet titles and field names in the API are based on their display names, but converted to lowercase, underscored identifiers without puncutation. E.g.:
+
+* “Tasks” --> `tasks`
+* “First name” --> `first_name`
+* “City, state & zip” --> `city_state_zip`
+* “First-time visitor?” --> `first_time_visitor`
 
 Content types
 -------------
@@ -62,7 +72,7 @@ Record objects
 
 * Throughout the API, records (rows) are represented as simple JSON objects.
 
-* The keys of the object are based on the field names. (Again, don't name two fields the same thing, or there will be conflicts!)
+* The keys of the object are based on the field names, as described above. (Again, don't name two fields the same thing, or there will be conflicts!)
 
 * Each record also has an `id` key with a short integer ID. This can be used to retrieve the record. (Again, don't name a field “ID”, or the actual ID will be shadowed.)
 
@@ -81,8 +91,8 @@ Requests
 
 This version of the API is read-only, so there are really only two calls:
 
-* `GET https://api.fieldbook.com/v1/:book_id/:sheet_name` retrieves a list of all records in the sheet.
-* `GET https://api.fieldbook.com/v1/:book_id/:sheet_name/:record_id` retrieves a single record.
+* `GET https://api.fieldbook.com/v1/:book_id/:sheet_title` retrieves a list of all records in the sheet.
+* `GET https://api.fieldbook.com/v1/:book_id/:sheet_title/:record_id` retrieves a single record.
 
 Future work
 -----------
