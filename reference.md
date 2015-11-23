@@ -178,7 +178,7 @@ Response (HTTP 200 OK):
 With a JSON body representing a single record, creates a record in the sheet. Returns the new record. Example:
 
 ```
-$ curl -u $KEY:$SECRET -H "Content-Type: application/json" -X POST \
+$ curl -u $KEY:$SECRET -H "Content-Type: application/json" \
     https://api.fieldbook.com/v1/5643be3316c813030039032e/people \
     -d '{"name":"Dave","age":19}'
 ```
