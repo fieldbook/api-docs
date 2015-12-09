@@ -29,7 +29,7 @@ Authentication
 
 ### The basics
 
-* Authentication is required on all API calls.
+* Authentication is required on all API calls, except for GET requests to a book with public API access enabled.
 * HTTPS is enforced; non-HTTPS requests will get a redirect to an HTTPS URL.
 * Requests use HTTP basic auth. The username is an API key, and the password is the secret associated with that key (see below).
 
@@ -38,6 +38,10 @@ Authentication
 * Manage API keys for a book by opening up the API console and using the “Manage API access” button.
 * You can revoke a key by deleting it from the management UI.
 * Right now keys are named key-1, key-2, etc. In the future we'll allow naming of keys.
+
+### Public (read-only) access
+
+Optionally, any book can be enabled for public (read-only) access. In this case, anyone can read data from the book without authentication.
 
 Endpoints
 ---------
@@ -280,4 +284,3 @@ There are a lot of things we're thinking about supporting in the future; shoot u
 * Including [formulas](http://docs.fieldbook.com/docs/formulas) (calculated/derived values) in responses
 * Webhooks (callbacks on edit events)
 * Read-only API keys
-* Public (unauthenticated) API access to public books
