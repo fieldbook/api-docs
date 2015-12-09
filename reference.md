@@ -1,7 +1,7 @@
-Fieldbook API – BETA
-====================
+Fieldbook API
+=============
 
-Thanks for trying out the first version of the Fieldbook API. It's very early and the API is very basic, but we're putting it out there for your feedback and in the hopes that even this early version will be useful to you.
+The Fieldbook API lets you read and write records from any book you have access to, as simple JSON records.
 
 Quick start
 -----------
@@ -11,12 +11,12 @@ If you just want to dive in and get started, see the [quick start guide](quick-s
 Version
 -------
 
-The version number in the URL is `v1`, but in semver terms consider this ~v0.2. We expect the API to evolve rapidly.
+The version number in the URL is `v1`, but in semver terms consider this ~v0.3. We expect the API to evolve rapidly.
 
 Limitations
 -----------
 
-Just to get a few limitations out of the way up front:
+To get a few limitations out of the way up front:
 
 * The API doesn't yet support formulas. We'll serve up your data, but if you want to do calculations you'll have to do them yourself for now.
 
@@ -29,15 +29,19 @@ Authentication
 
 ### The basics
 
-* Authentication is required on all API calls.
+* Authentication is required on all API calls, except for GET requests to a book with public API access enabled.
 * HTTPS is enforced; non-HTTPS requests will get a redirect to an HTTPS URL.
 * Requests use HTTP basic auth. The username is an API key, and the password is the secret associated with that key (see below).
 
 ### API keys
 
-* See the [quick start guide](quick-start.md) for how to manage API keys.
+* Manage API keys for a book by opening up the API console and using the “Manage API access” button.
 * You can revoke a key by deleting it from the management UI.
 * Right now keys are named key-1, key-2, etc. In the future we'll allow naming of keys.
+
+### Public (read-only) access
+
+Optionally, any book can be enabled for public (read-only) access. In this case, anyone can read data from the book without authentication.
 
 Endpoints
 ---------
@@ -165,9 +169,43 @@ Response (HTTP 200 OK):
         "name":"Los Angeles"
       }
     ]
-  },
+  }
 ]
 ```
+
+#### Sheet queries
+
+You can filter the list using simple `key=value` query parameters. E.g., append `?name=Alice` to the previous example:
+
+```
+$ curl -u $KEY:$SECRET https://api.fieldbook.com/v1/5643be3316c813030039032e/people?name=Alice
+```
+
+Response (HTTP 200 OK):
+
+```
+[
+  {
+    "id":1,
+    "name":"Alice",
+    "age":23,
+    "city":[
+      {
+        "id":2,
+        "name":"Chicago"
+      }
+    ]
+  }
+]
+```
+
+Note:
+
+* The query is a case-sensitive exact match.
+* For link fields, the value is matched against the display string of the linked cells (which is a comma-separated list in the case of multi-links).
+* Queries on formula fields are not yet supported.
+
+A more full-fledged query mechanism is coming in a future update.
 
 ### Read a record
 
@@ -276,8 +314,7 @@ Future work
 There are a lot of things we're thinking about supporting in the future; shoot us a note at support@fieldbook.com to let us know which of these are most important to your needs:
 
 * Pagination for large sheets
-* Support for [queries](http://docs.fieldbook.com/docs/queries)
+* Support for full [queries](http://docs.fieldbook.com/docs/queries)
 * Including [formulas](http://docs.fieldbook.com/docs/formulas) (calculated/derived values) in responses
 * Webhooks (callbacks on edit events)
 * Read-only API keys
-* Public (unauthenticated) API access to public books
