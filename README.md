@@ -1,7 +1,7 @@
-Fieldbook API docs (BETA)
-=========================
+Fieldbook API docs
+==================
 
-Fieldbook's API is in closed beta.
+The Fieldbook API lets you read and write records in your books. Each book has its own API, based on the schema of that book.
 
 Documentation
 -------------

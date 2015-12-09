@@ -1,7 +1,7 @@
-Fieldbook API – BETA
-====================
+Fieldbook API
+=============
 
-Thanks for trying out the first version of the Fieldbook API. It's very early and the API is very basic, but we're putting it out there for your feedback and in the hopes that even this early version will be useful to you.
+The Fieldbook API lets you read and write records from any book you have access to, as simple JSON records.
 
 Quick start
 -----------
@@ -11,12 +11,12 @@ If you just want to dive in and get started, see the [quick start guide](quick-s
 Version
 -------
 
-The version number in the URL is `v1`, but in semver terms consider this ~v0.2. We expect the API to evolve rapidly.
+The version number in the URL is `v1`, but in semver terms consider this ~v0.3. We expect the API to evolve rapidly.
 
 Limitations
 -----------
 
-Just to get a few limitations out of the way up front:
+To get a few limitations out of the way up front:
 
 * The API doesn't yet support formulas. We'll serve up your data, but if you want to do calculations you'll have to do them yourself for now.
 
