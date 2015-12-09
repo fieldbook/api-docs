@@ -35,7 +35,7 @@ Authentication
 
 ### API keys
 
-* See the [quick start guide](quick-start.md) for how to manage API keys.
+* Manage API keys for a book by opening up the API console and using the “Manage API access” button.
 * You can revoke a key by deleting it from the management UI.
 * Right now keys are named key-1, key-2, etc. In the future we'll allow naming of keys.
 

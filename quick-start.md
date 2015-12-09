@@ -1,76 +1,28 @@
 Fieldbook API Quick Start
 =========================
 
-1. Just a warning up front: This is a very early beta! See the [reference](reference.md) for a list of limitations.
+Explore
+-------
 
-2. Go to this example book: https://fieldbook.com/books/5643bb3dfd9d07030072b888
+The Fieldbook API explorer is the the fastest way to get started experimenting and playing with the API. Just hit the API button on any book:
 
-3. Make a copy of the book:
+![api-explorer](images/api-explorer.png)
 
-    ![copy-book-menu-item](images/copy-book-menu-item.png)
+Need an example book? Use [this one](https://fieldbook.com/books/5643bb3dfd9d07030072b888) (make a copy for yourself first).
 
-4. Open the API menu:
+The console shows you example requests in JavaScript and lets you run them and view the responses. Edit the code as much as you like to prototype and explore. The console is powered by [Tonic](https://tonicdev.com), so you can `require()` any npm module, and use ES7-style `await` to resolve promises inline.
 
-    ![manage-api-menu-item](images/manage-api-menu-item.png)
+From prototype to production
+----------------------------
 
-5. Note the base URL:
+The API explorer uses a temporary session-based API key. When you're ready to turn your prototyping into a script or production code:
 
-    ![api-base-url](images/api-base-url.png)
+1. Create a (non-temporary) API key using the “Manage API access” button in the API console.
 
-6. Create an API key:
+2. Copy down the password (API secret); it will only be shown once.
 
-    ![generate-api-key-button](images/generate-api-key-button.png)
+3. Now you can use the API key (username) and secret (password) to write client code.
 
-7. Write down the API key and secret (username/password for basic auth):
+Code you write in the console can be run directly as a Node script. Be sure to `npm install requestify` and any other modules you use, and set the `FIELDBOOK_USER` and `FIELDBOOK_KEY` environment variables to your API key and secret.
 
-    ![new-api-key](images/new-api-key.png)
-
-8. Test the API using `curl`, your API key and secret, and your base URL, like this:
-    ```
-    $ curl -u key-1:eO-_vXgy77-977-977-977-9S--_vX_vv73vv73vv71G https://api.fieldbook.com/v1/5643be3316c813030039032e/people
-    ```
-    The outcome should be JSON like this:
-    ```
-    [
-      {
-        "id": 1,
-        "name": "Alice",
-        "zipcode": "90210",
-        "birthday": "1985-03-02",
-        "favorite_number": 12,
-        "items": [
-          {
-            "id": 1,
-            "name": "Alpha"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "name": "Bob",
-        "zipcode": "15213",
-        "birthday": "1979-06-04",
-        "favorite_number": 7,
-        "items": [
-          {
-            "id": 2,
-            "name": "Bravo"
-          },
-          {
-            "id": 3,
-            "name": "Charlie"
-          }
-        ]
-      },
-      {
-        "id": 3,
-        "name": "Carol",
-        "zipcode": "08450",
-        "birthday": "1964-09-30",
-        "favorite_number": 99,
-        "items": []
-      }
-    ]
-    ```
-
-9. Read the [reference](reference.md) for more details.
+See the [client examples](client-examples.md) and the full [API reference](reference.md).
