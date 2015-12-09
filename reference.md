@@ -169,9 +169,43 @@ Response (HTTP 200 OK):
         "name":"Los Angeles"
       }
     ]
-  },
+  }
 ]
 ```
+
+#### Sheet queries
+
+You can filter the list using simple `key=value` query parameters. E.g., append `?name=Alice` to the previous example:
+
+```
+$ curl -u $KEY:$SECRET https://api.fieldbook.com/v1/5643be3316c813030039032e/people?name=Alice
+```
+
+Response (HTTP 200 OK):
+
+```
+[
+  {
+    "id":1,
+    "name":"Alice",
+    "age":23,
+    "city":[
+      {
+        "id":2,
+        "name":"Chicago"
+      }
+    ]
+  }
+]
+```
+
+Note:
+
+* The query is a case-sensitive exact match.
+* For link fields, the value is matched against the display string of the linked cells (which is a comma-separated list in the case of multi-links).
+* Queries on formula fields are not yet supported.
+
+A more full-fledged query mechanism is coming in a future update.
 
 ### Read a record
 
@@ -280,7 +314,7 @@ Future work
 There are a lot of things we're thinking about supporting in the future; shoot us a note at support@fieldbook.com to let us know which of these are most important to your needs:
 
 * Pagination for large sheets
-* Support for [queries](http://docs.fieldbook.com/docs/queries)
+* Support for full [queries](http://docs.fieldbook.com/docs/queries)
 * Including [formulas](http://docs.fieldbook.com/docs/formulas) (calculated/derived values) in responses
 * Webhooks (callbacks on edit events)
 * Read-only API keys
