@@ -207,6 +207,62 @@ Note:
 
 A more full-fledged query mechanism is coming in a future update.
 
+#### Pagination
+
+You can paginate queries using the `limit` and `offset` query parameters:
+
+* `limit=N` will limit the result object to at most N records
+* `offset=K` will skip the first K records before returning anything
+
+E.g., append `?limit=10` to a query to just get the first 10 records; append `?limit=10&offset=10` to get the second page of records (11–20), update the offset to 20 to get the third page, etc.
+
+When either `limit` or `offset` are supplied, the response will not be an array but an object, with keys:
+
+* `count`: The total number of records in the query result set.
+* `offset`: The offset of the sub-list that is being returned (echoed from the supplied offset parameter, or 0 if none was supplied).
+* `items`: An array of records, starting at the offset. If a limit is given, the array will be no longer than the limit.
+
+If `offset + items.length < count`, then there are more records to load beyond what was returned; update the offset to fetch the next page.
+
+Example:
+
+```
+$ curl -u $KEY:$SECRET https://api.fieldbook.com/v1/5643be3316c813030039032e/people?limit=2
+```
+
+Response (HTTP 200 OK):
+
+```
+{
+  "count":3,
+  "offset":0,
+  "items":[
+    {
+      "id":1,
+      "name":"Alice",
+      "age":23,
+      "city":[
+        {
+          "id":2,
+          "name":"Chicago"
+        }
+      ]
+    },
+    {
+      "id":2,
+      "name":"Bob",
+      "age":38,
+      "city":[
+        {
+          "id":1,
+          "name":"New York"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ### Read a record
 
 ```GET https://api.fieldbook.com/v1/:book_id/:sheet_title/:record_id```
@@ -313,7 +369,6 @@ Future work
 
 There are a lot of things we're thinking about supporting in the future; shoot us a note at support@fieldbook.com to let us know which of these are most important to your needs:
 
-* Pagination for large sheets
 * Support for full [queries](http://docs.fieldbook.com/docs/queries)
 * Including [formulas](http://docs.fieldbook.com/docs/formulas) (calculated/derived values) in responses
 * Webhooks (callbacks on edit events)
