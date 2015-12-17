@@ -8,7 +8,7 @@ The Fieldbook API explorer is the the fastest way to get started experimenting a
 
 ![api-explorer](images/api-explorer.png)
 
-Need an example book? Use [this one](https://fieldbook.com/books/5643bb3dfd9d07030072b888) (make a copy for yourself first).
+Need an example book? Use [this one](https://fieldbook.com/books/5670a30956dc4b0300003272?show_api=1).
 
 The console shows you example requests in JavaScript and lets you run them and view the responses. Edit the code as much as you like to prototype and explore. The console is powered by [Tonic](https://tonicdev.com), so you can `require()` any npm module, and use ES7-style `await` to resolve promises inline.
 
