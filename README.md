@@ -28,3 +28,4 @@ Unofficial client projects:
 
 * [node-fieldbook](https://www.npmjs.com/package/node-fieldbook), a Node client contributed by [@connormckelvey](https://github.com/connormckelvey)
 * [fieldbook-sharp](https://github.com/dvdsgl/fieldbook-sharp), a C#/.NET client from [@dvdsgl](https://github.com/dvdsgl)
+* [fieldbook-apy](https://github.com/cgm616/fieldbook-apy), a python3 very basic client from [@cgm616](https://github.com/cgm616)
