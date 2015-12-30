@@ -178,7 +178,8 @@ Response (HTTP 200 OK):
 You can filter the list using simple `key=value` query parameters. E.g., append `?name=Alice` to the previous example:
 
 ```
-$ curl -u $KEY:$SECRET https://api.fieldbook.com/v1/5643be3316c813030039032e/people?name=Alice
+$ curl -u $KEY:$SECRET \
+  https://api.fieldbook.com/v1/5643be3316c813030039032e/people?name=Alice
 ```
 
 Response (HTTP 200 OK):
@@ -207,6 +208,62 @@ Note:
 
 A more full-fledged query mechanism is coming in a future update.
 
+#### Include or exclude fields
+
+By default all fields are included in response objects. You can customize this with the `include` and `exclude` parameters. Each takes a comma-separated list of field keys. If `include` is passed, then only the named fields will be returned (plus the `id` field). If `exclude` is passed, then any named fields will be excluded.
+
+For instance:
+
+```
+$ curl -u $KEY:$SECRET \
+  https://api.fieldbook.com/v1/5643be3316c813030039032e/people?include=name,age
+```
+
+Response (HTTP 200 OK):
+
+```
+[
+  {
+    "id":1,
+    "name":"Alice",
+    "age":23
+  },
+  {
+    "id":2,
+    "name":"Bob",
+    "age":38
+  },
+  {
+    "id":3,
+    "name":"Carol",
+    "age":41
+  }
+]
+```
+
+Note that the `id` field is always included unless it is specifically excluded:
+
+```
+$ curl -u $KEY:$SECRET \
+  https://api.fieldbook.com/v1/5643be3316c813030039032e/people?include=name&exclude=id
+```
+
+Response (HTTP 200 OK):
+
+```
+[
+  {
+    "name":"Alice"
+  },
+  {
+    "name":"Bob"
+  },
+  {
+    "name":"Carol"
+  }
+]
+```
+
 #### Pagination
 
 You can paginate queries using the `limit` and `offset` query parameters:
@@ -227,7 +284,8 @@ If `offset + items.length < count`, then there are more records to load beyond w
 Example:
 
 ```
-$ curl -u $KEY:$SECRET https://api.fieldbook.com/v1/5643be3316c813030039032e/people?limit=2
+$ curl -u $KEY:$SECRET \
+  https://api.fieldbook.com/v1/5643be3316c813030039032e/people?limit=2
 ```
 
 Response (HTTP 200 OK):
@@ -288,6 +346,10 @@ Response (HTTP 200 OK):
   ]
 }
 ```
+
+#### Include or exclude fields
+
+A GET request for a single record can take the same `include` and `exclude` parameters as a GET request for a sheet, see above.
 
 ### Create a record
 
