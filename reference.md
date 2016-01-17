@@ -426,6 +426,22 @@ $ curl -u $KEY:$SECRET -X DELETE \
 
 Response: HTTP 204 No Content (empty body).
 
+Method override
+---------------
+
+If you're using an HTTP client that for some reason doesn't support all HTTP methods (such as PATCH), you can do a POST instead and specify the X-HTTP-Method-Override header. Example:
+
+```
+$ curl -u $KEY:$SECRET -H "Content-Type: application/json" \
+    -H "X-HTTP-Method-Override: PATCH" -X POST \
+    https://api.fieldbook.com/v1/5643be3316c813030039032e/people/1 \
+    -d '{"age":24,"city":[{"name":"Boston"}]}'
+```
+
+This will be interpreted as a PATCH.
+
+The method override header only works with POST requests.
+
 Future work
 -----------
 
