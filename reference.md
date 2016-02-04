@@ -588,7 +588,7 @@ https://user:password@example.com/your/callback
 
 Callback URLs are encrypted when stored in our database, in order to protect these credentials.
 
-In any case, we recommend always using HTTPS in webhook callbacks.
+HTTPS is required when using this format. (However, even if you're not using a username/password, we recomend using HTTPS in callback URLs.)
 
 Method override
 ---------------
