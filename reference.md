@@ -426,6 +426,170 @@ $ curl -u $KEY:$SECRET -X DELETE \
 
 Response: HTTP 204 No Content (empty body).
 
+Webhooks
+--------
+
+Fieldbook supports webhook callbacks on record create, update and delete events.
+
+### Key things to know
+
+* Webhooks are on a per-book basis. When you register a webhook callback, it will listen for changes in all sheets.
+
+* Webhooks are sent about record data changes. There are no meta-data webhooks yet.
+
+* Each registered webhook can listen for create, update, and/or delete events. However, each callback may include multiple types of changes, across multiple records. In general, we try to send one callback for each action a user takes in the system, so bulk actions can cause multiple types of updates at once, and to multiple records. For instance, pasting a block of values into a sheet can update multiple records and also create multiple new records, in a single event.
+
+### Registering a webhook
+
+To register a webhook, POST a webhook body to the webhooks collection for a book:
+
+```POST https://api.fieldbook.com/v1/:book_id/meta/webhooks <JSON body>```
+
+The request body:
+
+* Must have an `url` key with a callback URL.
+* May optionally have an `actions` key containing an array of actions to listen for. The actions are `create`, `update`, and `destroy`. If omitted, the callback will fire on all actions.
+
+Example:
+
+```
+$ curl -u $KEY:$SECRET -H "Content-Type: application/json" -X POST \
+    https://api.fieldbook.com/v1/5643be3316c813030039032e/meta/webhooks \
+    -d '{"url":"https://you.com/your/callback","actions":["create", "update"]}'
+```
+
+Response (HTTP 200 OK):
+
+```
+{
+  "id": "56b01529cf979181cfe28941",
+  "url": "https://you.com/your/callback",
+  "actions": [
+    "create",
+    "update"
+  ],
+}
+```
+
+### Callback format
+
+On each relevant event, a callback will be POSTed to the callback URL for each webhook. The request body contains:
+
+* The `webhookId` that the callback is for
+* A `user` hash with basic details about the user who made the change
+* A `changes` hash with one key per sheet that was affected, each of which has:
+    - Optionally, a `create` array of created records
+    - Optionally, an `update` array of updated records
+    - Optionally, a `destroy` array of deleted records.
+
+Example:
+
+```
+{
+  "webhookId": "56b01529cf979181cfe28941",
+  "user": {
+    "email": "jason@fieldbook.com",
+    "name": "Jason Crawford",
+    "id": "56a97a97242dce2ee012a9ad"
+  },
+  "changes": {
+    "people": {
+      "create": [
+        {
+          "id": 4,
+          "name": "Dave",
+          "age": 54,
+          "city": [
+            {
+              "id": 1,
+              "name": "New York"
+            }
+          ]
+        }
+      ],
+      "update": [
+        {
+          "id":3,
+          "name":"Carol",
+          "age":42,
+          "city":[
+            {
+              "id":3,
+              "name":"Los Angeles"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+### Delivery caveats
+
+Some caveats on the delivery of webhook callbacks:
+
+* Delivery order is not guaranteed.
+
+* The record data in each callback is the latest data for that record at the time the callback was generated. This will usually correspond to the action taken by the user, but in some conditions may not. For instance, if a record is created by one user and then quickly updated by another user, it is possible that the create callback will contain the data as edited by the second user.
+
+* If the callback request receives an error response, we will retry at least once. However, we don't currently guarantee any particular number of retries or timing of the retries.
+
+* Callbacks are designed to notify of changes to record data, not metadata. They should have reasonable behavior in the face of metadata changes, but we do not advise relying too closely on any particular webhook behavior around metadata.
+
+### Deleting (de-registering) a webhook
+
+To de-register a webhook, just DELETE it. Example:
+
+```
+$ curl -u $KEY:$SECRET -H "Content-Type: application/json" -X DELETE \
+    https://api.fieldbook.com/v1/5643be3316c813030039032e/meta/webhooks/56b01529cf979181cfe28941
+```
+
+The response will be HTTP 204 No Content.
+
+### Listing webhooks
+
+To list all webhooks on a book, just GET the collection. Example:
+
+```
+$ curl -u $KEY:$SECRET https://api.fieldbook.com/v1/5643be3316c813030039032e/meta/webhooks
+```
+
+Response (HTTP 200 OK):
+
+```
+[
+  {
+    "id": "56b01529cf979181cfe28941",
+    "url": "https://you.com/your/callback",
+    "actions": [
+      "create",
+      "update"
+    ],
+  },
+  {
+    "id": "564125b564b72f4fd3ed9dba",
+    "url": "https://you.com/other/callback",
+    "actions": [
+      "destroy"
+    ],
+  }
+]
+```
+
+### Webhook security
+
+If you want to protect your webhook receiving endpoints, you can add basic auth parameters to the callback URL, like this:
+
+```
+https://user:password@example.com/your/callback
+```
+
+Callback URLs are encrypted when stored in our database, in order to protect these credentials.
+
+HTTPS is required when using this format. (However, even if you're not using a username/password, we recomend using HTTPS in callback URLs.)
+
 Method override
 ---------------
 
@@ -449,5 +613,4 @@ There are a lot of things we're thinking about supporting in the future; shoot u
 
 * Support for full [queries](http://docs.fieldbook.com/docs/queries)
 * Including [formulas](http://docs.fieldbook.com/docs/formulas) (calculated/derived values) in responses
-* Webhooks (callbacks on edit events)
 * Read-only API keys
