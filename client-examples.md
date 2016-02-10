@@ -99,3 +99,21 @@ request = requests.get('https://api.fieldbook.com/v1/56789abc0000000000000001/ta
     auth=("$KEY", "$SECRET"))
 print len(request.json()), "items"
 ```
+
+Google Apps Script
+------------------
+
+Using [UrlFetchApp Class](https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app)
+
+```
+UrlFetchApp.fetch('https://api.fieldbook.com/v1/56789abc0000000000000001/tasks', {
+  method: 'post',
+  headers: {
+    "Accept": "application/json",
+    "Authorization": "Basic " + Utilities.base64Encode(key + ":" + secret)
+  },
+  payload: JSON.stringify({
+    task_name_or_identifier: "task1"
+  })
+});
+```
