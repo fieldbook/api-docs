@@ -210,7 +210,7 @@ A more full-fledged query mechanism is coming in a future update.
 
 #### Include or exclude fields
 
-By default all fields are included in response objects. You can customize this with the `include` and `exclude` parameters. Each takes a comma-separated list of field keys. If `include` is passed, then only the named fields will be returned (plus the `id` field). If `exclude` is passed, then any named fields will be excluded.
+By default all fields are included in response objects. You can customize this with the `include` and `exclude` parameters. Each takes a comma-separated list of field keys. If `include` is passed, then only the named fields will be returned (plus the `id` field). If `exclude` is passed, then any named fields will be excluded. If the same field key is passed in both the include and exclude list, the exclude list will take priority.
 
 For instance:
 
