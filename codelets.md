@@ -25,9 +25,8 @@ seconds.
 
 The code should expose an exports.endpoint function that takes a request and a
 response.  That function may return a promise (Q and Bluebird are provided),
-may call response.send r may take a third parameter which is a done callback.
+may call response.send or may take a third parameter which is a done callback.
 It may also just return JSON objects or strings to return to the caller.
-
 
 ### Full Codelet Examples
 
@@ -46,7 +45,7 @@ exports.endpoint = function (req) {
 
 **Promise response**
 ```javascript
-var Q = require(‘q’);
+var Q = require('q');
 exports.endpoint = function (req) {
   return Q.delay(10).then(function () {
     return {hello: 1};
@@ -69,8 +68,8 @@ there is none.
 **Using the Response Object**
 ```javascript
 exports.endpoint = function (res, req) {
-  req.type(‘text/plain’);
-  req.send(‘Hello World’);
+  req.type('text/plain');
+  req.send('Hello World');
 }
 ```
 
@@ -189,13 +188,13 @@ Using the Fieldbook Client
 
 We provide a preinitialized client with access to the book the codelet is one
 on the `client` global object. This is from the
-(fieldbook-client)[https://github.com/fieldbook/fieldbook-client] node module.
-Here is an example using this client ot return all names from the 'People' of a
-book:
+[fieldbook-client](https://github.com/fieldbook/fieldbook-client) node module.
+Here is an example using this client ot return all names from the 'People'
+sheet of a book:
 
 ```javascript
 exports.endpoint = function (request) {
-  return client.list(‘people’).then(function (records) {
+  return client.list('people').then(function (records) {
     return records.map(function (record) {
       return record.name;
     }
@@ -211,9 +210,9 @@ a number of great ES6 features, like fat arrow syntax and generators.  Here is
 an example returning all of the names from the 'People' sheet
 
 ```javascript
-var Q = require(‘q’);
+var Q = require('q');
 exports.endpoint = Q.async(function * (request) {
-  var people = yield client.list(‘people’);
+  var people = yield client.list('people');
   return people.map(p => p.name);
 })
 ```

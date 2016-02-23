@@ -7,7 +7,7 @@ simple HTML form to create new rows in your Fieldbook database.
 We're going to start with a super simple sheet that just tracks people who have
 seen this example.  Check out [this
 book](https://fieldbook.com/books/56cccbd72ba55103004f278d).  Very simple
-sheet, just with Name and Country.  Feel free to copy that sheet and play with
+sheet, just with Name and Country.  Feel free to copy that book and play with
 it yourself!
 
 Here is a screenshot:
@@ -44,15 +44,15 @@ info.)
 var renderForm = function (req, res) {
   res.type('text/html')
   return `
-<head><link rel="stylesheet" href="//yegor256.github.io/tacit/tacit.min.css"/></head>
-<body>
-  <form method="post">
-    Name: <input name="name" type="text">
-    Country: <input name="country" type="text">
-    <input type="submit">
-  </form>
-</body>
-`
+    <head><link rel="stylesheet" href="//yegor256.github.io/tacit/tacit.min.css"/></head>
+    <body>
+      <form method="post">
+        Name: <input name="name" type="text">
+        Country: <input name="country" type="text">
+        <input type="submit">
+      </form>
+    </body>
+  `;
 }
 ```
 
@@ -111,15 +111,15 @@ exports.endpoint = function (req, res) {
 var renderForm = function (req, res) {
   res.type('text/html')
   return `
-<head><link rel="stylesheet" href="//yegor256.github.io/tacit/tacit.min.css"/></head>
-<body>
-  <form method="post">
-    Name: <input name="name" type="text">
-    Country: <input name="country" type="text">
-    <input type="submit">
-  </form>
-</body>
-`
+    <head><link rel="stylesheet" href="//yegor256.github.io/tacit/tacit.min.css"/></head>
+    <body>
+      <form method="post">
+        Name: <input name="name" type="text">
+        Country: <input name="country" type="text">
+        <input type="submit">
+      </form>
+    </body>
+  `;
 }
 
 var postForm = Q.async(function * (req, res) {
