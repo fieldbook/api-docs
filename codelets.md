@@ -4,7 +4,9 @@ Fieldbook Codelets
 Getting Started
 ---------------
 
-Fieldbook codelets are the simpliest way to host Node code from a public URL.  Codelets provide easy access to your Fieldbook data through a preinitialized [fieldbook-client](https://github.com/fieldbook/fieldbook-client) object.
+Fieldbook codelets are the simpliest way to host Node code from a public URL.
+Codelets provide easy access to your Fieldbook data through a preinitialized
+[fieldbook-client](https://github.com/fieldbook/fieldbook-client) object.
 
 To access codelets on your book, open the API modal.
 
@@ -14,12 +16,24 @@ Then open the codelets tab
 
 ![codelets-tab](images/codelets-tab.png)
 
-From this pane, you can edit the code for your custom endpoint.  Using curl or a browser, you can fire a request against the given url to run the codelet.
+From this pane, you can edit the code for your custom endpoint.  Using curl or
+a browser, you can fire a request against the given url to run the codelet.
 
-A codelet should take no more than a few seconds to run.  Longer codelets may be terminated in the middle of their execution.  Timeout happens around 50 seconds.
+A codelet should take no more than a few seconds to run.  Longer codelets may
+be terminated in the middle of their execution.  Timeout happens around 50
+seconds.
 
-The code should expose an exports.endpoint function that takes a request and a response.  That function may return a promise (Q and Bluebird are provided), may call response.send
-r may take a third parameter which is a done callback.  It may also just return JSON objects or strings to return to the caller.
+The code should expose an exports.endpoint function that takes a request and a
+response.  That function may return a promise (Q and Bluebird are provided),
+may call response.send r may take a third parameter which is a done callback.
+It may also just return JSON objects or strings to return to the caller.
+
+
+### Full Codelet Examples
+
+* [Github Pull Requests Task Tracking](codelets/github.md)
+* [Slackbot in 2 minutes](codelets/slackbot.md)
+* [Submit records via a form](codelets/form.md)
 
 ### Response Examples
 
@@ -63,7 +77,8 @@ exports.endpoint = function (res, req) {
 Modules
 -------
 
-There is currently a hand managed list of allowed npm requires.  Here is the current list:
+There is currently a hand managed list of allowed npm requires.  Here is the
+current list:
 
 * amazon-product-api (0.3.8)
 * async (1.5.2)
@@ -166,12 +181,17 @@ There is currently a hand managed list of allowed npm requires.  Here is the cur
 * yargs (4.1.0)
 * yelp (1.0.1)
 
-Is your favorite module missing? We can't guarantee anything, but send us a contact through the message us button in the app.
+Is your favorite module missing? We can't guarantee anything, but send us a
+contact through the message us button in the app.
 
 Using the Fieldbook Client
 --------------------------
 
-We provide a preinitialized client with access to the book the codelet is one on the `client` global object. This is from the (fieldbook-client)[https://github.com/fieldbook/fieldbook-client] node module.  Here is an example using this client ot return all names from the 'People' of a book:
+We provide a preinitialized client with access to the book the codelet is one
+on the `client` global object. This is from the
+(fieldbook-client)[https://github.com/fieldbook/fieldbook-client] node module.
+Here is an example using this client ot return all names from the 'People' of a
+book:
 
 ```javascript
 exports.endpoint = function (request) {
@@ -186,7 +206,9 @@ exports.endpoint = function (request) {
 ES6
 ---
 
-Codelets are run on node 5.5.0 with the --harmony flag.  This means you can use a number of great ES6 features, like fat arrow syntax and generators.  Here is an example returning all of the names from the 'People' sheet
+Codelets are run on node 5.5.0 with the --harmony flag.  This means you can use
+a number of great ES6 features, like fat arrow syntax and generators.  Here is
+an example returning all of the names from the 'People' sheet
 
 ```javascript
 var Q = require(‘q’);
