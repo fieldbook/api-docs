@@ -2,11 +2,11 @@
 
 At Fieldbook, we dogfood our own app for task tracking. All of our stories go
 into a book that looks [something like
-this](https://fieldbook.com/books/56c3aa4d1faa5a030071abf8).
+this](https://fieldbook.com/books/56c3aa4d1faa5a030071abf8):
 
-[screen shot]
+![Stories book](../images/github-example-book.png)
 
-For a long time, we were been fully manual with updating that "Stories" sheet,
+For a long time, we were fully manual with updating that "Stories" sheet,
 and the pull request process was pretty cumbersome, involving copying and
 pasting links between GitHub and Fieldbook.
 
@@ -199,17 +199,17 @@ function getRecordIdFromBody(body) {
 Now all we have to do is add this webhook to our GitHub repo. Go to the
 "Settings" panel of your repo:
 
-[screenshot]
+![GitHub settings](../images/github-settings.png)
 
 Click on "Webhooks & services", and then click "Add webhook".
 
-[screenshot]
+![Add webhook](../images/github-add-webhook.png)
 
 Paste your codelet URL into the "Payload URL" field, then click "Let me select
 individual events." Make sure that only "Pull Request" is checked, and click
 "Add Webhook".
 
-[screenshot]
+![Configure webhook](../images/github-config-webhook.png)
 
 And we're done!
 
