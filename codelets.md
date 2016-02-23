@@ -118,7 +118,6 @@ There is currently a hand managed list of allowed npm requires.  Here is the cur
 * natural (0.2.1)
 * node-fieldbook (1.0.7)
 * node-foursquare (0.3.0)
-* node-gyp (3.2.1)
 * node-linkedin (0.5.3)
 * node-uuid (1.4.7)
 * node-wikipedia (0.0.2)
