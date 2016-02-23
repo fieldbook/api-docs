@@ -1,25 +1,19 @@
 # Using Fieldbook codelets to handle webhooks from GitHub
 
-At Fieldbook, we dogfood our app for task tracking. All of our stories go into
-a book that looks [something like
+At Fieldbook, we dogfood our own app for task tracking. All of our stories go
+into a book that looks [something like
 this](https://fieldbook.com/books/56c3aa4d1faa5a030071abf8).
 
 [screen shot]
 
 For a long time, we were been fully manual with updating that "Stories" sheet,
-and the pull request process was pretty cumbersome. It went like this:
+and the pull request process was pretty cumbersome, involving copying and
+pasting links between GitHub and Fieldbook.
 
-1. Create a PR on GitHub, paste the story's record link into the description
-2. Copy the PR link
-3. Mark the record as "pull request"
-4. Paste the PR link into the record
+It's easy to forget these steps, and as a result, our Stories sheet often ended
+up out of sync — missing PR links, statuses out of date, etc.
 
-Of course, steps 2-4 are easy to forget, so our stories sheet was often out of
-sync with our GitHub repo. Similarly, it was easy to forget to mark a story as
-"done" once the PR was merged.
-
-This irked me. Why are we manually executing a rote process? Are we savages, or
-are we engineers?
+This irked me. Why are engineers manually executing a rote process?
 
 # The Old Way: A tiny Heroku app
 
@@ -45,20 +39,14 @@ Ugh. All of that, and the only part that's actually interesting is step 6.
 
 # The New Way: Codelets!
 
-We recently introduced [codelets](link-to-codelets-page), which let you
-instantly create a one-off webserver with a single endpoint. This means we can
+We recently introduced [codelets](../codelets.md), which let you instantly
+create a one-off webserver with a single endpoint. As we'll see, we can
 eliminate all of those steps besides 6 and 8.
 
 # Creating a codelet
 
-To add a codelet, we first click the API button to pull up the API panel.
-
-[screen-shot]
-
-We open up the "Codelets" tab and click "New", which gives us a new codelet
-filled in with the default example.
-
-Let's clear that out, and just start out with the simplest possible codelet.
+We'll [add a codelet](../codelets.md#getting-started), clear out the default
+example and type:
 
 ```js
 exports.endpoint = function (request, response) {
@@ -112,13 +100,6 @@ function getRecordIdFromBody(body) {
 }
 ```
 
-Basically, we're saying:
-
->Find a line that starts with "http", then has "/records/" after a bit,
-followed by a Mongo ID, and capture that ID.
-
-This is pretty lazy, but it works well enough.
-
 Now that we can grab the record ID off the description, we need to check if
 there even is one. If not, we'll just stop here:
 
@@ -150,13 +131,14 @@ if (pr.merged) {
 ## Actually update the record
 
 Finally, we're going to use the Fieldbook API to update the record. When you
-create a codelet, you automatically get a Fieldbook API client initialized with
-your book. You don't have to set up any API keys or anything. It's just there
-as the global `client`.
+create a codelet, you automatically get a
+[Fieldbook API client](https://github.com/fieldbook/fieldbook-client)
+initialized with your book. You don't have to set up any API keys or anything.
+It's just there as the global `client`.
 
 ```js
   // Update the record with the status and PR url, then return 'OK'.
-  return client.update('stories', recordId, {status, pr: pr.html_url})
+  return client.update('stories', recordId, {status: status, pr: pr.html_url})
     .thenResolve(`Record ${recordId} updated`);
 ```
 
@@ -168,8 +150,8 @@ that; they'll wait for the promise to fulfill, and send the result as the
 response. We use `thenResolve` to make the output nicer, so we can look in the
 GitHub logs and see what happened.
 
-(And oh yeah, that's an ES6 template string. Codelets run on Node 5.5.0, so you
-can make use of many ES6 features)
+(And oh yeah, that's an ES6 template string. Codelets run on Node 5.5.0 with
+the `--harmony` flag, so you can make use of many ES6 features)
 
 ## The end result
 
