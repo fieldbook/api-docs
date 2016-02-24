@@ -81,6 +81,10 @@ tool for creating promised functions from generators
 And that is it.  3 simple functions and you can easy have a form submitting
 data to your Fieldbook
 
+If you go to the URL for your codelet you should see a nice form:
+
+![codelet-form-tacit](../images/codelet-form-tacit.png)
+
 Extensions
 ----------
 
