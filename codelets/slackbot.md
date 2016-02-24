@@ -119,8 +119,9 @@ This simply looks in the "Projects" sheet for records named "Project
 \<whatever\>", and tells us whether it found anything. Now we're returning a
 promise, which the codelet will automatically handle for us.
 
-Now if we try `/foo sapphire`, we'll see "Found a project named sapphire". If
-we try `/foo corndog`, we'll see "No project found named corndog".
+Now if we try `/project-codelet sapphire`, we'll see "Found a project named
+sapphire". If we try `/project-codelet corndog`, we'll see "No project found
+named corndog".
 
 ## Outputting more info
 
