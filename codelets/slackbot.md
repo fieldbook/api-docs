@@ -24,6 +24,8 @@ And time!
 
 Go into Slack, type "/hello" and your bot will respond "Hello there!".
 
+![Hello](../images/slackbot-hello.png)
+
 Admittedly, this isn't a very helpful bot. So let's backtrack a bit.
 
 # Creating a *useful* Slack bot in ~~2~~ 10 minutes using Fieldbook
@@ -54,7 +56,7 @@ book](https://fieldbook.com/books/56cb4d987753cf030003e54c) as a starting
 point. The finished codelet is already on that book, but you can just create a
 new one if you want to follow along. Of course, you'll also want to go back and
 create a new slash command for the new codelet's URL (or just change the old
-slash command). I'll assume you made your slash command `/codelet`
+slash command). I'll assume you made your slash command `/project-codelet`
 
 First of all, let's ditch the arrow-function syntax, and make a little skeleton
 we can add to:
@@ -69,11 +71,11 @@ exports.endpoint = function (request, response) {
 ```
 
 We're requiring those modules because we'll use them later. We've included a
-[big list](link-to-module-list) of popular npm modules for you to use (we're
+[big list](../codelets.md#modules) of popular npm modules for you to use (we're
 always open to adding more — just give us a shout).
 
 Let's start out by looking at the text parameter Slack gives us. This
-represents what the user types after `/codelet`.
+represents what the user types after `/project-codelet`.
 
 ```js
 ...
@@ -114,7 +116,7 @@ exports.endpoint = exports.endpoint = function (request, response) {
 ```
 
 This simply looks in the "Projects" sheet for records named "Project
-<whatever>", and tells us whether it found anything. Now we're returning a
+\<whatever\>", and tells us whether it found anything. Now we're returning a
 promise, which the codelet will automatically handle for us.
 
 Now if we try `/foo sapphire`, we'll see "Found a project named sapphire". If
@@ -158,7 +160,7 @@ exists. Let's have our bot print out the record's fields:
 Now we're doing a more sophisticated response. We return an object with an
 attachment to display a consise summary of the record.
 
-[final response screenshot]
+![Final result](../images/slackbot-final.png)
 
 Since we returned an object, the codelet will automatically switch the response
 type to `application/json` and stringify the object.
