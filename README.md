@@ -31,6 +31,7 @@ Unofficial client projects:
 * [fieldbook-apy](https://github.com/cgm616/fieldbook-apy), a very basic Python 3 client from [@cgm616](https://github.com/cgm616)
 * [fieldbook-py](https://github.com/mattstibbs/fieldbook_py), another basic Python 2/3 client available on pypi from [@mattstibbs](https://github.com/mattstibbs)
 * [node-fieldbook-promise](https://github.com/thetmkay/node-fieldbook-promise), a promise-based Node client from [@thetmkay](https://github.com/thetmkay)
+* [Fieldbook-SwiftSDK](https://github.com/ChrisMash/Fieldbook-SwiftSDK), a Swift SDK for iOS from [@chrismash](https://github.com/ChrisMash/)
 
 Other projects:
 
