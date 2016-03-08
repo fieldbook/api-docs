@@ -1,27 +1,26 @@
 Easy-peasy record creation via Codelets
 =======================================
 
-This [Codelet](../codelets.md) example will show you how to create a super
-simple HTML form to create new rows in your Fieldbook database.
+This [Codelet](../codelets.md) example will show you how to create a
+super-simple HTML form to create new rows in your Fieldbook database.
 
-We're going to start with a super simple sheet that just tracks people who have
+We're going to start with a simple sheet that just tracks people who have
 seen this example.  Check out [this
-book](https://fieldbook.com/books/56cccbd72ba55103004f278d).  Very simple
-sheet, just with Name and Country.  Feel free to copy that book and play with
-it yourself!
+book](https://fieldbook.com/books/56cccbd72ba55103004f278d).  It just has
+Name and Country.  Feel free to copy that book and play with it yourself!
 
 Here is a screenshot:
 
 ![people-sheet](../images/codelet-form-sheet.png)
 
-We are going to create a small codelet that when retrieved renders an HTML form
-and on POST creates a record
+We are going to create a small codelet that, when retrieved, renders an HTML form,
+and on POST, creates a record.
 
 Code
 ----
 
-First lets create the endpoint function that will dispatch based on the HTTP
-method (is this request getting the form to display or is it submitting data)
+First, let's create the endpoint function that will dispatch based on the HTTP
+method (is this request getting the form to display, or is it submitting data?)
 
 ```javascript
 exports.endpoint = function (req, res) {
@@ -35,10 +34,10 @@ exports.endpoint = function (req, res) {
 }
 ```
 
-Then we need to render the form, which just consists of setting the
-Content-Type (see the
-[codelets response documentation](../codelets.md#response-object)) for more
-info.)
+Then we need to render the form, which just requires setting the
+Content-Type and returning a string (see the
+[codelets response documentation](../codelets.md#codelet-responses) for more
+info).
 
 ```javascript
 var renderForm = function (req, res) {
@@ -56,10 +55,10 @@ var renderForm = function (req, res) {
 }
 ```
 
-Note, here we are using the cool little [Tacit CSS](//yegor256.github.io/tacit/)
-library, and also we are using ES6's [template strings](//developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
+Here we are using the cool little [Tacit CSS](//yegor256.github.io/tacit/)
+library, and also ES6's [template strings](//developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals).
 
-And finally, we need to create the record from the resulting post
+And finally, we need to create the record from the resulting post:
 
 ```javascript
 var Q = require('q');
@@ -69,17 +68,17 @@ var postForm = Q.async(function * (req, res) {
 })
 ```
 
-The client object is a preinitialized javascript object for talking to
-Fieldbook's REST api.  It is an instance of a
-[fieldbook-client](//github.com/fieldbook/fieldbook-client) object.  We are
+The `client` object is a pre-initialized JavaScript object for talking to
+Fieldbook's REST API.  It is an instance of the
+[fieldbook-client](//github.com/fieldbook/fieldbook-client) module.  We are
 also using
 [generators](//developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*)
-from ES6 as well as Q's
+from ES6, as well as Q's
 [async](//github.com/kriskowal/q/wiki/API-Reference#qasyncgeneratorfunction)
-tool for creating promised functions from generators
+tool for creating promised functions from generators.
 
-And that is it.  3 simple functions and you can easy have a form submitting
-data to your Fieldbook
+And that's it.  Three simple functions, and you can have a form submitting
+data to your Fieldbook.
 
 If you go to the URL for your codelet you should see a nice form:
 
@@ -88,14 +87,17 @@ If you go to the URL for your codelet you should see a nice form:
 Extensions
 ----------
 
-Obivously, there are a lot of additions that could be added to this tiny
-codelet.  For instance, we don't do any validation of country, maybe we should
-force the form to validate the Country name out of a list.  We could also
-consult external services using `requestify`.  If we had multiple linked sheets
-we could use the data from the POST to setup records in multiple sheets and
-link them together.
+There are a lot of additions that could be added to this tiny codelet:
 
-All The Code
+* We don't do any validation of country; we could
+  force the form to validate the Country name out of a list.
+
+* We could also consult external services using `requestify`.
+
+* If we had multiple linked sheets, we could use the data from the POST
+  to set up records in multiple sheets and link them together.
+
+All the code
 ------------
 
 Here is all the code in one place suitable for pasting into your own book.

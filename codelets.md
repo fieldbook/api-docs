@@ -1,49 +1,125 @@
 Fieldbook Codelets
 ==================
 
-Getting Started
+What are Codelets?
+------------------
+
+Fieldbook lets you extend the API of any book with little snippets of code –
+*codelets* – that define custom endpoints. With Codelets, you can do in a few
+minutes and a couple dozen lines of code what would previously have required an
+entire API server hosted separately.
+
+### Examples
+
+See these tutorial examples for how to use Codelets to:
+
+* [Create a custom Slackbot for your Fieldbook that responds to slash commands](codelets/slackbot.md)
+* [Keep a book in sync with GitHub pull requests by handling webhook callbacks](codelets/github.md)
+* [Add a custom form-submission endpoint to your Fieldbook](codelets/form.md)
+
+Getting started
 ---------------
 
-Fieldbook codelets are the simpliest way to host Node code from a public URL.
-Codelets provide easy access to your Fieldbook data through a preinitialized
-[fieldbook-client](https://github.com/fieldbook/fieldbook-client) object.
-
-To access codelets on your book, open the API modal.
+To access codelets on your book, open the API modal:
 
 ![api-button](images/api-button.png)
 
-Then open the codelets tab
+Then open the Codelets tab:
 
 ![codelets-tab](images/codelets-tab.png)
 
-From this pane, you can edit the code for your custom endpoint.  Using curl or
-a browser, you can fire a request against the given url to run the codelet.
+From this pane, you can edit the code for your custom endpoint. Using curl or a
+browser, you can fire a request against the given URL to run the codelet.
 
-A codelet should take no more than a few seconds to run.  Longer codelets may
-be terminated in the middle of their execution.  Timeout happens around 50
-seconds.
+The code should define an `exports.endpoint` function that takes a request, a
+response, and optionally a done callback:
 
-The code should expose an exports.endpoint function that takes a request and a
-response.  That function may return a promise (Q and Bluebird are provided),
-may call response.send or may take a third parameter which is a done callback.
-It may also just return JSON objects or strings to return to the caller.
+```
+exports.endpoint = function (request, response, done) {
+  // codelet body here
+}
+```
 
-### Full Codelet Examples
+Codelet requests
+----------------
 
-* [Github Pull Requests Task Tracking](codelets/github.md)
-* [Slackbot in 2 minutes](codelets/slackbot.md)
-* [Submit records via a form](codelets/form.md)
+Your codelet URL will respond to any of these HTTP methods: GET, POST, PUT,
+PATCH or DELETE. The request object passed to the function will have:
 
-### Response Examples
+* `request.method`
+* `request.headers`
+* `request.body`
+* `request.query`
+* `request.params` (a combination of body and query, with query taking precedence)
 
-**Bare Object Response**
+Requests will accept JSON body parameters if the Content-Type of the request is
+`application/json`, and similarly will accept form parameters of the
+Content-Type is `application/x-www-form-urlencoded`.
+
+Its easy to inpect what is available on the request object, just return it from
+a codelet like so:
+
+```javascript
+exports.endpoint = function (request) {
+  return request;
+}
+```
+
+And then request it with some parameters:
+
+```
+$ curl "$CODELET_URL?foo=bar" -d '{"zip":"hello"}' -H 'Content-Type: application/json'
+```
+
+Example response:
+
+```
+{
+  "headers": {
+    "host": "fieldbook.com",
+    "user-agent": "curl/7.43.0",
+    "accept": "*/*",
+    "content-type": "application/json",
+    "x-request-id": "92cf3346-f407-4d2e-a1be-35f83af9d532",
+    "x-forwarded-for": "XXX.XXX.XXX.XXX",
+    "x-forwarded-proto": "https",
+    "x-forwarded-port": "443",
+    "x-request-start": "1455144616294",
+    "content-length": "16"
+  },
+  "body": {
+    "zip": "hello"
+  },
+  "query": {
+    "foo": "bar"
+  },
+  "params": {
+    "zip": "hello",
+    "foo": "bar"
+  },
+  "method": "POST"
+}
+```
+
+Codelet responses
+-----------------
+
+For convenience, there are multiple ways to generate a response:
+
+### Return an object
+
+A JSON object or string will be directly translated into a response body:
+
 ```javascript
 exports.endpoint = function (req) {
   return {hello: 1};
 }
 ```
 
-**Promise response**
+### Return a promise
+
+You can also return a promise for a response object:
+
 ```javascript
 var Q = require('q');
 exports.endpoint = function (req) {
@@ -53,7 +129,11 @@ exports.endpoint = function (req) {
 }
 ```
 
-**Done Callback**
+### Invoke the done callback
+
+Invoke the callback as `done(error, result)`. Pass null for error if there is
+none:
+
 ```javascript
 exports.endpoint = function (req, res, done) {
   setTimeout(function () {
@@ -62,22 +142,115 @@ exports.endpoint = function (req, res, done) {
 }
 ```
 
-The done callback expects arguments of ERR and RESULT.  Pass null for error if
-there is none.
+### Use the response object
 
-**Using the Response Object**
+Directly invoke the response object for more control over response headers and
+such:
+
 ```javascript
-exports.endpoint = function (res, req) {
-  req.type('text/plain');
-  req.send('Hello World');
+exports.endpoint = function (req, res) {
+  res.type('text/plain');
+  res.send('Hello World');
 }
 ```
 
-Modules
--------
+Methods on the response object:
 
-There is currently a hand managed list of allowed npm requires.  Here is the
-current list:
+#### res.send(STRING or OBJECT)
+
+Sends a response. If no Content-Type header is set, the type will be determined
+by the argument. A string will be sent as `text/plain`; an object will be
+stringified to JSON and sent as `application/json`.
+
+If a Content-Type has already been set, the argument will be handled
+accordingly. For instance, if `text/plain` has been set, and an object is passed
+to send(), then `object.toString()` will be invoked to create a text response.
+
+When called with no arguments, will send the prepared body (by the write()
+method).
+
+Calling this method ends the request and further calls to this or any other
+response method will result in an error.
+
+#### res.write(STRING)
+
+Call to incrementally append data to the body of the response.
+
+If you ever call write or send on the response object, you may still return a
+promise from your endpoint, but the result of the promise will be ignored. If
+you call write and also use the done callback to return a result, an error will
+be thrown.
+
+#### res.status(CODE)
+
+Sets the HTTP status code of the response.
+
+#### res.setHeader(NAME, VALUE)
+
+Set a header value (however, you may not set cookies; see below).
+
+#### res.type(CONTENT_TYPE)
+
+Convenience method for setting the Content-Type header.
+
+#### res.location(URL)
+
+Convenience method for setting the Location header.
+
+#### res.redirect(CODE, URL) or redirect(URL)
+
+Shorthand for setting the status code and URL for a redirect. CODE defaults to
+302 if not passed.
+
+Accessing your Fieldbook data
+-----------------------------
+
+The pre-initialized `client` object provides access to the book the codelet is
+on. It's an instance of the
+[fieldbook-client](https://github.com/fieldbook/fieldbook-client) Node module.
+Here is an example using this client to return all names from the “People” sheet
+of a book:
+
+```javascript
+exports.endpoint = function (request) {
+  return client.list('people').then(function (records) {
+    return records.map(function (record) {
+      return record.name;
+    }
+  };
+}
+```
+
+ES6
+---
+
+Codelets are run on Node 5.5.0 with the `--harmony` flag. This means you can use
+a number of great ES6 features, like fat arrow syntax and generators. Here the
+same example rewritten to use `yield` and fat arrows:
+
+```javascript
+var Q = require('q');
+exports.endpoint = Q.async(function * (request) {
+  var people = yield client.list('people');
+  return people.map(p => p.name);
+})
+```
+
+Restrictions
+------------
+
+* A codelet should take no more than a few seconds to run. Longer codelets may
+be terminated in the middle of their execution. Timeout happens around 50
+seconds.
+
+* You may not set cookies, and trying to will result in an error when your code
+is run.
+
+Available modules
+-----------------
+
+You can `require()` Node modules in your codelets. The following modules are
+currently supported:
 
 * amazon-product-api (0.3.8)
 * async (1.5.2)
@@ -180,157 +353,5 @@ current list:
 * yargs (4.1.0)
 * yelp (1.0.1)
 
-Is your favorite module missing? We can't guarantee anything, but send us a
-contact through the message us button in the app.
-
-Using the Fieldbook Client
---------------------------
-
-We provide a preinitialized client with access to the book the codelet is one
-on the `client` global object. This is from the
-[fieldbook-client](https://github.com/fieldbook/fieldbook-client) node module.
-Here is an example using this client ot return all names from the 'People'
-sheet of a book:
-
-```javascript
-exports.endpoint = function (request) {
-  return client.list('people').then(function (records) {
-    return records.map(function (record) {
-      return record.name;
-    }
-  };
-}
-```
-
-ES6
----
-
-Codelets are run on node 5.5.0 with the --harmony flag.  This means you can use
-a number of great ES6 features, like fat arrow syntax and generators.  Here is
-an example returning all of the names from the 'People' sheet
-
-```javascript
-var Q = require('q');
-exports.endpoint = Q.async(function * (request) {
-  var people = yield client.list('people');
-  return people.map(p => p.name);
-})
-```
-
-Requesting Codelets
--------------------
-
-Your codelet URL will respond to any of these HTTP methods: GET, POST, PUT,
-PATCH or DELETE.  The request object passed to the function will have headers,
-params, body, query, and method keys.  The headers key has all of the HTTP
-headers received from the client.  The body, and query keys represent various
-parameters, either in the body or as query params to the URL.  The params key
-is a simple combination of body and query, with query taking precedence.
-
-Requests will accept JSON body parameters if the Content-Type of the request is
-`application/json`, and similarly will accept form parameters of the
-Content-Type is `application/x-www-form-urlencoded`.
-
-Its easy to inpect what is available on the reqeust object, just return it from
-a codelet like so:
-
-```javascript
-exports.endpoint = function (request) {
-  return request;
-}
-```
-
-And then request it with some paramters:
-
-`curl CODELET_URL\?foo\=bar -d '{"zip": "hello"}' -H 'Content-Type: application/json'`
-
-**Example response**
-
-```
-{
-  "headers": {
-    "host": "fieldbook.com",
-    "connection": "close",
-    "user-agent": "curl/7.43.0",
-    "accept": "*/*",
-    "content-type": "application/json",
-    "x-request-id": "92cf3346-f407-4d2e-a1be-35f83af9d532",
-    "x-forwarded-for": "XXX.XXX.XXX.XXX",
-    "x-forwarded-proto": "https",
-    "x-forwarded-port": "443",
-    "via": "1.1 vegur",
-    "connect-time": "0",
-    "x-request-start": "1455144616294",
-    "total-route-time": "0",
-    "content-length": "16"
-  },
-  "body": {
-    "zip": "hello"
-  },
-  "params": {
-    "zip": "hello",
-    "foo": "bar"
-  },
-  "query": {
-    "foo": "bar"
-  },
-  "method": "POST"
-}
-```
-
-Response Object
----------------
-
-The second parameter passed to your function is the response object, it has
-several convenience methods, but boils down to setting headers and sending some
-kind of response.
-
-If you ever call write or send on the response object, you may still return a
-promise from your endpoint, but the result of the promise will be ignored.  If
-you call write and also use the done callback to return a result, an error will
-be thrown.
-
-### Response Methods
-
-#### send(STRING or OBJECT)
-
-When called with no arguments, will send the prepared body (by the write()
-method).
-
-Send a response.  If no Content-Type header is set and a string is passed, type
-will be set to `text/plain`, and the passed string will be the response body.
-If an object is passed, `application/json` will be the response Content-Type
-and the object will be stringified to JSON.
-
-If a Content-Type is already set, the string will be used verbatim as the body
-of the response, if passed an object, object.toString() will be used.
-
-Calling this method ends the request and further calls to this or any other
-response method will result in an error.
-
-#### write(STRING)
-
-Call to incrementally append data to the body of the response.
-
-#### status(CODE)
-
-Sets the HTTP status code of the response.
-
-#### setHeader(NAME, VALUE)
-
-Set a header value.  You may not set cookies, and trying to will result in an
-error when your code is run.
-
-#### type(CONTENT_TYPE)
-
-Convenience method for setting the Content-Type header.
-
-#### location(URL)
-
-Convenience method for setting the Location header.
-
-#### redirect(CODE, URL) or redirect(URL)
-
-Shorthand for setting the status code and URL for a redirect.  CODE defaults to 302 if not passed.
-
-Convenience method for setting the Location header.
+Is your favorite module missing? Let us know using the “Message us” button in
+the app.

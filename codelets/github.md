@@ -1,4 +1,4 @@
-# Using Fieldbook codelets to handle webhooks from GitHub
+# Using Fieldbook Codelets to handle webhooks from GitHub
 
 At Fieldbook, we dogfood our own app for task tracking. All of our stories go
 into a book that looks [something like
@@ -22,9 +22,12 @@ state". So I initially solved this problem by creating a small Heroku app.
 
 That worked pretty well. I set up a little [Express](http://expressjs.com/)
 server that could field the requests from GitHub, parse out the record ID and
-PR status, and update the record through our API.
+PR status, and update the record through our API. With this in place, we simply
+had to paste a Fieldbook link to the original story into a GitHub pull request,
+and Fieldbook would automatically be updated with a link back to the PR, and the
+status.
 
-But that involved a lot of boilerplate. I had to:
+But that solution involved a lot of boilerplate. I had to:
 
 1. Set up a new project
 2. Install node modules
@@ -83,7 +86,7 @@ so we'll just check that and return early if it's missing.
 (Note that the only reason we return a string is that we have to return
 *something*. GitHub keeps a log of its webhook requests, so returning an
 informative string makes it really easy to see what happened when you look at
-that log)
+that log.)
 
 ## Parsing out the record link
 
@@ -117,7 +120,8 @@ Next, we need to figure out what status to set on the record. If the PR is
 merged, we mark the record as "done"; otherwise we mark it as "pull request".
 
 ```js
-// If the PR is merged, mark the record as done. If not, mark it as having a pull request
+// If the PR is merged, mark the record as done.
+// If not, mark it as having a pull request
 var status;
 if (pr.merged) {
   status = 'done';
@@ -151,7 +155,7 @@ response. We use `thenResolve` to make the output nicer, so we can look in the
 GitHub logs and see what happened.
 
 (And oh yeah, that's an ES6 template string. Codelets run on Node 5.5.0 with
-the `--harmony` flag, so you can make use of many ES6 features)
+the `--harmony` flag, so you can make use of many ES6 features.)
 
 ## The end result
 
@@ -219,6 +223,5 @@ How easy is that? When I first did this as a Heroku app, the whole thing took
 about an hour. When I ported it to a codelet, I rewrote it from scratch, and
 the whole thing took about 10 minutes.
 
-[The demo book](https://fieldbook.com/books/56c3aa4d1faa5a030071abf8) is
-public, so you can make a copy and hook it up to your own repo and hack on it
-as you like.
+Make a copy of [the demo book](https://fieldbook.com/books/56c3aa4d1faa5a030071abf8),
+hook it up to your own repo, and hack on it as you like!

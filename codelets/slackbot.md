@@ -1,26 +1,28 @@
-# Creating a Slack bot in 2 minutes using Fieldbook
+# Creating a Slackbot in two minutes using Fieldbook
 
-Start your timer now.
+Ready? Start your timer now.
 
-Create a new book, or go to a book you already have where you are an owner or admin. Click the "API" button. Click the "Codelets" tab. Click "New".
+1. Create a new book, or go to a book you already have where you are an owner or admin.
 
-Click the editor, select all, and type:
+2. Click the "API" button. Click the "Codelets" tab. Click "New".
+
+3. Click the editor, select all, and type:
 
 ```js
 exports.endpoint = request => "Hello there!";
 ```
 
-Click the URL field and copy the URL. Now click "Publish".
+4. Click the URL field and copy the URL. Now click "Publish".
 
-Go to https://slack.com/apps/build/custom-integration
+5. Go to https://slack.com/apps/new/A0F82E8CA-slash-commands
 
-Click "Slash Commands". Type "/hello" under "Choose a Command" and hit enter.
+6. Type "/hello" under "Choose a Command" and hit enter.
 
-Paste the URL you copied in the URL field. Hit enter.
+7. Paste the URL you copied in the URL field. Hit enter.
 
-And time!
+And... time!
 
-## No seriously, you just made a Slack bot
+## No seriously, you just made a Slackbot
 
 Go into Slack, type "/hello" and your bot will respond "Hello there!".
 
@@ -28,19 +30,19 @@ Go into Slack, type "/hello" and your bot will respond "Hello there!".
 
 Admittedly, this isn't a very helpful bot. So let's backtrack a bit.
 
-# Creating a *useful* Slack bot in ~~2~~ 10 minutes using Fieldbook
+# Creating a *useful* Slackbot in ~~two~~ ten minutes using Fieldbook
 
-So let's go back to our codelet in Fieldbook, and take a look at —
+So let's go back to our codelet in Fieldbook, and take a look at—
 
 *Wait a sec, what's a "codelet"?*
 
 A codelet is a snippet of code that can talk to your book, and respond to HTTP
 requests from the outside world. More precisely, it's a tiny webserver that
 handles a single URL endpoint with the minimum boilerplate possible.  See the
-[Getting Started](../codelets.md) page for more info
+[Getting Started](../codelets.md) page for more info.
 
-The entrypoint into a codelet is given by `exports.endpoint`, So when you
-create a codelet with the oneliner:
+The entry point into a codelet is given by `exports.endpoint`, So when you
+create a codelet with the one-liner:
 
 ```js
 exports.endpoint = request => "Hello there!";
@@ -56,7 +58,7 @@ book](https://fieldbook.com/books/56cb4d987753cf030003e54c) as a starting
 point. The finished codelet is already on that book, but you can just create a
 new one if you want to follow along. Of course, you'll also want to go back and
 create a new slash command for the new codelet's URL (or just change the old
-slash command). I'll assume you made your slash command `/project-codelet`
+slash command). I'll assume you made your slash command `/project`.
 
 First of all, let's ditch the arrow-function syntax, and make a little skeleton
 we can add to:
@@ -71,11 +73,11 @@ exports.endpoint = function (request, response) {
 ```
 
 We're requiring those modules because we'll use them later. We've included a
-[big list](../codelets.md#modules) of popular npm modules for you to use (we're
-always open to adding more — just give us a shout).
+[big list](../codelets.md#available-modules) of popular npm modules for you to
+use (we're always open to adding more — just give us a shout).
 
 Let's start out by looking at the text parameter Slack gives us. This
-represents what the user types after `/project-codelet`.
+represents what the user types after `/project`.
 
 ```js
 ...
@@ -85,7 +87,7 @@ exports.endpoint = function (request, response) {
 }
 ```
 
-Publish, and try it out. Your bot should print out "oof".
+Publish, and try it out: `/project foo`. Your bot should print out "oof".
 
 ## That was still pretty trivial
 
@@ -116,11 +118,11 @@ exports.endpoint = exports.endpoint = function (request, response) {
 ```
 
 This simply looks in the "Projects" sheet for records named "Project
-\<whatever\>", and tells us whether it found anything. Now we're returning a
+[whatever]", and tells us whether it found anything. Now we're returning a
 promise, which the codelet will automatically handle for us.
 
-Now if we try `/project-codelet sapphire`, we'll see "Found a project named
-sapphire". If we try `/project-codelet corndog`, we'll see "No project found
+Now if we try `/project sapphire`, we'll see "Found a project named
+sapphire". If we try `/project corndog`, we'll see "No project found
 named corndog".
 
 ## Outputting more info
@@ -168,11 +170,11 @@ type to `application/json` and stringify the object.
 
 # Just the beginning
 
-That should get you started with a basic Slack bot that can talk to your book.
+That should get you started with a basic Slackbot that can talk to your book.
 Of course, there's no reason to limit yourself to just looking up individual
 records. You can query, edit, and create new records too.
 
 Be sure to check out the [API
 documentation](https://github.com/fieldbook/api-docs), and the [docs for the
 fieldbook-client module](https://github.com/fieldbook/fieldbook-client) to see
-what all you can do.
+what you can do.
