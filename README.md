@@ -20,6 +20,12 @@ Documentation
 * [Quick start](quick-start.md)
 * [Client examples](client-examples.md) in JavaScript, Ruby, Python, etc.
 * [Reference](reference.md)
+* [Codelets](codelets.md)
+
+Official Clients
+----------------
+
+* Node: [fieldbook-client](https://github.com/fieldbook/fieldbook-client)
 
 Community
 ---------
