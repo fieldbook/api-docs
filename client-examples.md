@@ -82,6 +82,7 @@ uri = URI.parse("https://api.fieldbook.com/v1/56789abc0000000000000001/tasks")
 http = Net::HTTP.new(uri.host, uri.port)
 request = Net::HTTP::Get.new(uri.request_uri)
 request.basic_auth("$KEY", "$SECRET")
+http.use_ssl = true
 response = http.request(request)
 
 items = JSON.parse(response.body)
