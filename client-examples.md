@@ -101,6 +101,24 @@ request = requests.get('https://api.fieldbook.com/v1/56789abc0000000000000001/ta
 print len(request.json()), "items"
 ```
 
+PHP
+---
+
+Using [PHP cURL](http://php.net/manual/en/ref.curl.php):
+
+```
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_USERPWD, $KEY . ':' . $SECRET);
+curl_setopt($ch, CURLOPT_URL, 'https://api.fieldbook.com/v1/56789abc0000000000000001/tasks');
+$result = curl_exec($ch);
+curl_close($ch);
+
+$obj = json_decode($result);
+echo count($obj) . ' items';
+```
+
 Google Apps Script
 ------------------
 
