@@ -12,14 +12,14 @@ In all the example below, substitute:
 curl
 ----
 
-```
+```bash
 $ curl -H "Accept: application/json" -u $KEY:$SECRET https://api.fieldbook.com/v1/56789abc0000000000000001/tasks
 ```
 
 jQuery
 ------
 
-```
+```js
 $.ajax({
   url: 'https://api.fieldbook.com/v1/56789abc0000000000000001/tasks',
   headers: {
@@ -44,7 +44,7 @@ Node
 
 Using [the npm `request` module](https://github.com/request/request):
 
-```
+```js
 var request = require('request');
 
 var options = {
@@ -72,7 +72,7 @@ Ruby
 
 Using Net::HTTP (as per [this cheat sheet](http://www.rubyinside.com/nethttp-cheat-sheet-2940.html)):
 
-```
+```rb
 require "net/http"
 require "uri"
 require "json"
@@ -94,7 +94,7 @@ Python
 
 Using [the Requests library](http://docs.python-requests.org/en/latest/):
 
-```
+```python
 import requests
 request = requests.get('https://api.fieldbook.com/v1/56789abc0000000000000001/tasks',
     auth=("$KEY", "$SECRET"))
@@ -106,7 +106,7 @@ PHP
 
 Using [PHP cURL](http://php.net/manual/en/ref.curl.php):
 
-```
+```php
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -124,7 +124,7 @@ Google Apps Script
 
 Using [UrlFetchApp Class](https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app)
 
-```
+```js
 UrlFetchApp.fetch('https://api.fieldbook.com/v1/56789abc0000000000000001/tasks', {
   method: 'post',
   headers: {
