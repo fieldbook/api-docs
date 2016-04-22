@@ -606,6 +606,15 @@ This will be interpreted as a PATCH.
 
 The method override header only works with POST requests.
 
+Rate limits
+-----------
+
+To prevent runaway API clients from causing sudden shocks to the system and degrading performance for everyone, we limit the API to 5 simultaneous outstanding requests from any given API key. Beyond that limit, requests may receive an HTTP 429 Too Many Requests error response.
+
+* If you are writing a script that uses the API to process many records in batch, we recommend that you serialize your API calls: wait for one call to finish before firing off the next call. This is the simplest way to avoid any rate limit errors.
+
+* If you have a server or codelet that uses our API and needs a higher rate limit, contact us: support@fieldbook.com
+
 Future work
 -----------
 
