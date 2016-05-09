@@ -12,14 +12,26 @@ In all the example below, substitute:
 curl
 ----
 
+List records:
+
 ```bash
 $ curl -H "Accept: application/json" -u $KEY:$SECRET https://api.fieldbook.com/v1/56789abc0000000000000001/tasks
+```
+
+Create a record:
+
+```bash
+$ curl -H "Accept: application/json" -H "Content-Type: application/json" -u $KEY:$SECRET \
+    https://api.fieldbook.com/v1/56789abc0000000000000001/tasks \
+    -d '{"name":"New task","owner":"Alice","priority":1}'
 ```
 
 jQuery
 ------
 
 ```js
+// List records:
+
 $.ajax({
   url: 'https://api.fieldbook.com/v1/56789abc0000000000000001/tasks',
   headers: {
@@ -28,6 +40,31 @@ $.ajax({
   },
   success: function (data) {
     console.log(data.length + ' items');
+  },
+  error: function (error) {
+    console.log('error', error);
+  }
+});
+
+// Create a record:
+
+var record = {
+  name: "New task",
+  owner: "Alice",
+  priority: 1
+};
+
+$.ajax({
+  method: 'POST',
+  url: 'https://api.fieldbook.com/v1/56789abc0000000000000001/tasks',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': 'Basic ' + btoa('$KEY:$SECRET')
+  },
+  data: JSON.stringify(record),
+  success: function (data) {
+    console.log('created record', data);
   },
   error: function (error) {
     console.log('error', error);
@@ -47,11 +84,11 @@ Using [the npm `request` module](https://github.com/request/request):
 ```js
 var request = require('request');
 
+// List records
+
 var options = {
   url: 'https://api.fieldbook.com/v1/56789abc0000000000000001/tasks',
-  headers: {
-    'Accept': 'application/json'
-  },
+  json: true,
   auth: {
     username: '$KEY',
     password: '$SECRET'
@@ -60,9 +97,39 @@ var options = {
 
 request(options, function (error, response, body) {
   if (error) {
-    console.log('error', error);
+    console.log('error making request', error);
+  } else if (response.statusCode >= 400) {
+    console.log('HTTP error response', response.statusCode, body.message);
   } else {
     console.log(body.length + ' items');
+  }
+});
+
+// Create a record
+
+var record = {
+  name: "New task",
+  owner: "Alice",
+  priority: 1
+};
+
+options = {
+  url: 'https://api.fieldbook.com/v1/56789abc0000000000000001/tasks',
+  json: true,
+  body: record,
+  auth: {
+    username: '$KEY',
+    password: '$SECRET'
+  }
+};
+
+request.post(options, function (error, response, body) {
+  if (error) {
+    console.log('error making request', error);
+  } else if (response.statusCode >= 400) {
+    console.log('HTTP error response', response.statusCode, body.message);
+  } else {
+    console.log('created record', body);
   }
 });
 ```
