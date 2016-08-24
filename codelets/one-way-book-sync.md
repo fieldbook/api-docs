@@ -2,7 +2,9 @@
 
 These instructions will guide you through setting up a codelet (and webhook) that will take changes to a sheet in one book, and apply those same changes in a sheet in a second book. This way, the second sheet "mirrors" the first sheet, keeping them in sync.
 
-In these instructions, the books are named "primary" and "copy", and changes from "primary" are copied to "copy". Each book has a sheet named "Contacts", and these two sheets must have exactly the same column names. The name field of each Contacts sheet is called "Name".
+In these instructions, the books are named "primary" and "copy", and changes from "primary" are copied to "copy". These book names are not important; you can set them however you like
+
+Each book has a sheet named "Contacts", and these two sheets must have exactly the same column names. The name field of each Contacts sheet is called "Name". If you change these, you'll need to change the "sheetSlug" and "nameFieldSlug" variables in the first codelet.
 
 To protect your webhook, it's a good idea to put some random string in the URL. In the code examples here, I've used "some-secret", but you should replace that with something harder to guess. It needs to be the same string in both codelets.
 
@@ -98,3 +100,7 @@ Save the codelet, then copy its URL and load it in a new tab. You should see som
 ```
 
 Once you've done that, you'll no longer need this second codelet, so you can delete it.
+
+## Conclusion
+
+Your sheets are now linked. Just remember, if you change the fields on the "primary" book's contacts, you'll need to change them in "copy" as well.
