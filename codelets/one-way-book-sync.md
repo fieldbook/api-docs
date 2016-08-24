@@ -1,6 +1,6 @@
 # Syncing sheets across books (one-way)
 
-In these instructions, the books are named "primary" and "copy", and changes from "primary" are copied to "copy". Each book has a sheet named "Contacts", and these two sheets must have exactly the same column names. The name field of each Contacts sheet is "name".
+In these instructions, the books are named "primary" and "copy", and changes from "primary" are copied to "copy". Each book has a sheet named "Contacts", and these two sheets must have exactly the same column names. The name field of each Contacts sheet is called "Name".
 
 To protect your webhook, it's a good idea to put some random string in the URL. In the code examples here, I've used "some-secret", but you should replace that with something harder to guess. It needs to be the same string in both codelets.
 
