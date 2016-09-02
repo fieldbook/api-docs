@@ -68,7 +68,7 @@ exports.endpoint = Q.async(function * (request, response) {
 var findExistingRecordId = function (name) {
   var query = {limit: 1};
   query[nameFieldSlug] = name;
-  return client.list(sheetSlug, query}).then(function (result) {
+  return client.list(sheetSlug, query).then(function (result) {
     if (result && result.items[0]) {
       return result.items[0].id;
     } else {
