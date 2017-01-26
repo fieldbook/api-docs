@@ -89,6 +89,8 @@ The keys of the object are based on the field names, as described above. (Again,
 
 * Dates are strings in the form YYYY-MM-DD; a day-of-year is in the form MM-DD.
 
+* Checkboxes are returned as boolean values (`true` or `false`).
+
 * Linked cells are arrays of objects with the short ID and name of the record. Other fields of the linked record are not populated right now.
 
 * Empty cells are returned as `null`.
