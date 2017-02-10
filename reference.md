@@ -617,6 +617,9 @@ To prevent runaway API clients from causing sudden shocks to the system and degr
 
 * If you have a server or codelet that uses our API and needs a higher rate limit, contact us: support@fieldbook.com
 
+Note that sheet names are lowercase only and spaces need to be replaced with underscores `_`, so if you have a sheet named `My Sheet` the list of records would be available at `GET https://api.fieldbook.com/v1/:book_id/my_sheet`
+
+
 Future work
 -----------
 
