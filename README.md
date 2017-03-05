@@ -35,7 +35,7 @@ Unofficial client projects:
 * [node-fieldbook](https://www.npmjs.com/package/node-fieldbook), a Node client contributed by [@connormckelvey](https://github.com/connormckelvey)
 * [fieldbook-sharp](https://github.com/dvdsgl/fieldbook-sharp), a C#/.NET client from [@dvdsgl](https://github.com/dvdsgl)
 * [fieldbook-apy](https://github.com/cgm616/fieldbook-apy), a very basic Python 3 client from [@cgm616](https://github.com/cgm616)
-* [fieldbook-py](https://github.com/mattstibbs/fieldbook_py), another basic Python 2/3 client available on pypi from [@mattstibbs](https://github.com/mattstibbs)
+* [fieldbook-py](https://github.com/mattstibbs/fieldbook_py), another basic Python 3 client available on pypi from [@mattstibbs](https://github.com/mattstibbs)
 * [node-fieldbook-promise](https://github.com/thetmkay/node-fieldbook-promise), a promise-based Node client from [@thetmkay](https://github.com/thetmkay)
 * [Fieldbook-SwiftSDK](https://github.com/ChrisMash/Fieldbook-SwiftSDK), a Swift SDK for iOS from [@chrismash](https://github.com/ChrisMash/)
 * [phieldbook](https://github.com/Joeventures/phieldbook), a PHP client from [@Joeventures](https://github.com/Joeventures)
