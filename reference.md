@@ -634,6 +634,11 @@ Callback URLs are encrypted when stored in our database, in order to protect the
 
 HTTPS is required when using this format. (However, even if you're not using a username/password, we recomend using HTTPS in callback URLs.)
 
+Metadata API
+------------
+
+To read the book schema (sheets and fields), see the [metadata API](metadata.md).
+
 Method override
 ---------------
 
