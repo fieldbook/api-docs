@@ -435,7 +435,7 @@ Fieldbook supports webhook callbacks on record create, update and delete events.
 
 ### Key things to know
 
-* Webhooks are on a per-book basis. When you register a webhook callback, it will listen for changes in all sheets.
+* Webhooks can be registered on a per-sheet basis, or a per-book basis (listening to all sheets).
 
 * Webhooks are sent about record data changes. There are no meta-data webhooks yet.
 
@@ -451,6 +451,7 @@ The request body:
 
 * Must have an `url` key with a callback URL.
 * May optionally have an `actions` key containing an array of actions to listen for. The actions are `create`, `update`, and `destroy`. If omitted, the callback will fire on all actions.
+* May optionally have a `sheet` key with a sheet slug or id. If provided, the webhook will only fire for changes in this sheet. If omitted, it will fire for changes in any sheet in the book.
 
 Example:
 
@@ -479,7 +480,7 @@ On each relevant event, a callback will be POSTed to the callback URL for each w
 
 * The `webhookId` that the callback is for
 * A `user` hash with basic details about the user who made the change
-* A `changes` hash with one key per sheet that was affected, each of which has:
+* A `changes` hash. If the webhook was not created with a sheet specified, then this has one key per sheet that was affected, each of which has:
     - Optionally, a `create` array of created records
     - Optionally, an `update` array of updated records
     - Optionally, a `destroy` array of deleted records.
@@ -523,6 +524,47 @@ Example:
         }
       ]
     }
+  }
+}
+```
+
+If the webhook *was* registered for a particular sheet, then the `changes` hash *only* contains changes for the one sheet, like this:
+
+```
+{
+  "webhookId": "56b01529cf979181cfe28941",
+  "user": {
+    "email": "jason@fieldbook.com",
+    "name": "Jason Crawford",
+    "id": "56a97a97242dce2ee012a9ad"
+  },
+  "changes": {
+    "create": [
+      {
+        "id": 4,
+        "name": "Dave",
+        "age": 54,
+        "city": [
+          {
+            "id": 1,
+            "name": "New York"
+          }
+        ]
+      }
+    ],
+    "update": [
+      {
+        "id":3,
+        "name":"Carol",
+        "age":42,
+        "city":[
+          {
+            "id":3,
+            "name":"Los Angeles"
+          }
+        ]
+      }
+    ]
   }
 }
 ```
