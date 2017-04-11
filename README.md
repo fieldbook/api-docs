@@ -20,6 +20,7 @@ Documentation
 * [Quick start](quick-start.md)
 * [Client examples](client-examples.md) in JavaScript, Ruby, Python, etc.
 * [Reference](reference.md)
+* [Metadata API](metadata.md)
 * [Codelets](codelets.md)
 
 Official Clients
