@@ -40,6 +40,7 @@ Unofficial client projects:
 * [node-fieldbook-promise](https://github.com/thetmkay/node-fieldbook-promise), a promise-based Node client from [@thetmkay](https://github.com/thetmkay)
 * [Fieldbook-SwiftSDK](https://github.com/ChrisMash/Fieldbook-SwiftSDK), a Swift SDK for iOS from [@chrismash](https://github.com/ChrisMash/)
 * [phieldbook](https://github.com/Joeventures/phieldbook), a PHP client from [@Joeventures](https://github.com/Joeventures)
+* [django-fieldbook](https://github.com/bsab/django-fieldbook), a Django client from [@bsab](https://github.com/bsab) based on fieldbook-py
 
 Other projects:
 
