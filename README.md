@@ -47,3 +47,4 @@ Other projects:
 * [highlight-fieldbook-extension](https://github.com/thetmkay/highlight-fieldbook-extension), a Chrome extension for saving links and web clippings to a Fieldbook, by [@thetmkay](https://github.com/thetmkay)
 * [fieldbook-cli](https://github.com/fiatjaf/fieldbook-cli), a command-line interface for your Fieldbook data from [@fiatjaf](https://github.com/fiatjaf)
 * [fieldbook-download](https://github.com/hay/fieldbook-download), a helper that downloads all sheets and images in a Fieldbook, by [@hay](https://github.com/hay)
+* [fieldbookforgravityforms](https://github.com/Joeventures/fieldbookforgravityforms), an add-on for the Gravity Forms WordPress plugin that sends form submissions to Fieldbook sheets, by [@Joeventures](https://github.com/Joeventures)
