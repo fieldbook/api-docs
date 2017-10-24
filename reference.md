@@ -91,7 +91,7 @@ The keys of the object are based on the field names, as described above. (Again,
 
 * Checkboxes are returned as boolean values (`true` or `false`).
 
-* Linked cells are arrays of objects with the short ID and name of the record. Other fields of the linked record are not populated right now.
+* Linked cells are arrays of objects. By default, the only fields included are the short ID and any fields that are part of the record name. To include all fields of linked records, pass the `expand` parameter (see below).
 
 * Empty cells are returned as `null`.
 
@@ -262,6 +262,62 @@ Response (HTTP 200 OK):
   },
   {
     "name":"Carol"
+  }
+]
+```
+
+#### Expand fields
+
+When linked records are included, by default the only fields populated on those records are the short ID and any fields that are part of the record name, as in the examples above. To include all fields on linked records, pass the `expand` parameter, with a comma-separated list of field keys.
+
+Example:
+
+```
+$ curl -u $KEY:$SECRET https://api.fieldbook.com/v1/5643be3316c813030039032e/people?expand=city
+```
+
+Response (HTTP 200 OK):
+
+```
+[
+  {
+    "id":1,
+    "name":"Alice",
+    "age":23,
+    "city":[
+      {
+        "id":2,
+        "name":"Chicago",
+        "state":"IL",
+        "timezone":"Central"
+      }
+    ]
+  },
+  {
+    "id":2,
+    "name":"Bob",
+    "age":38,
+    "city":[
+      {
+        "id":1,
+        "name":"New York",
+        "state":"NY",
+        "timezone":"Eastern"
+      }
+    ]
+  },
+  {
+    "id":3,
+    "name":"Carol",
+    "age":41,
+    "city":[
+      {
+        "id":3,
+        "name":"Los Angeles",
+        "state":"CA",
+        "timezone":"Pacific"
+      }
+    ]
   }
 ]
 ```
