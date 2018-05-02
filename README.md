@@ -42,6 +42,7 @@ Unofficial client projects:
 * [phieldbook](https://github.com/Joeventures/phieldbook), a PHP client from [@Joeventures](https://github.com/Joeventures)
 * [django-fieldbook](https://github.com/bsab/django-fieldbook), a Django client from [@bsab](https://github.com/bsab) based on fieldbook-py
 * [go-fieldbook](https://github.com/trexart/go-fieldbook), a Go client from [@trexart](https://github.com/trexart)
+* [AlanKitap](https://bitbucket.org/coelmay/alankitap), a PHP client from [Coel May](https://bitbucket.org/coelmay/)
 
 Other projects:
 
