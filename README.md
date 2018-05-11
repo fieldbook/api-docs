@@ -22,6 +22,7 @@ Documentation
 * [Reference](reference.md)
 * [Metadata API](metadata.md)
 * [Codelets](codelets.md)
+* [Snapshot format (JSON)](snapshot-format.md)
 
 Official Clients
 ----------------
