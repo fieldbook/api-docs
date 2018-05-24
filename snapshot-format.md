@@ -136,9 +136,9 @@ Each object in a sheet's `navItems` list contains:
 * `public`: for a form, whether it is publicly accessible (true/false)
 * `uuid`: an id that is used to create a public form link, if any
 
-If the type is 'query', this is a saved search/view and there will be a `query` key that contains an AST of the query (needs explanation?)
+If the type is 'query', this is a saved search/view and there will be a `query` key that contains an AST of the query.
 
-If the type is 'form', this is a form and there will be a `form` key that contains the configuration for the form (needs explanation?)
+If the type is 'form', this is a form and there will be a `form` key that contains the configuration for the form.
 
 Joins
 -----
